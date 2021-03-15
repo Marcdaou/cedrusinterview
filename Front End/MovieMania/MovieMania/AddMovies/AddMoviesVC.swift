@@ -21,6 +21,8 @@ class AddMoviesVC: UIViewController {
         super.viewDidLoad()
         navigationController?.navigationBar.prefersLargeTitles = false
         navigationItem.largeTitleDisplayMode = .never
+        
+        searchBar.delegate = self
 
     }
 }
@@ -28,23 +30,19 @@ class AddMoviesVC: UIViewController {
 extension AddMoviesVC: UITableViewDataSource, UITableViewDelegate {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-
         return 1
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
         return movies.count
     }
-    
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         return UIView()
     }
+    
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! AddMovieCell
-        
         cell.populate(movie: movies[indexPath.row])
         return cell
     }
@@ -55,12 +53,21 @@ extension AddMoviesVC: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
         NetworkManager.shared.addNewMovie(movie: movies[indexPath.row]) { (movie) in
             print("movie created successfully")
         } failure: { (error) in
             print("Movie creation failed")
         }
-
     }
+}
+
+extension AddMoviesVC: UISearchBarDelegate {
+    func searchBar(_ searchBar: UISearchBar, selectedScopeButtonIndexDidChange selectedScope: Int) {
+        NetworkManager.shared.getMovies(searchStr: searchBar.text ?? "", sort: "name", success: { (movies) in
+            self.movies = movies
+        }) { (error) in
+            print(error)
+        }
+    }
+
 }
