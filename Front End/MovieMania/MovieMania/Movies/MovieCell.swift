@@ -31,8 +31,20 @@ class MovieCell: UITableViewCell {
         opinion.setTitleColor(.black, for: .normal)
     }
     
+    var movie: Movie!
+    
+    @IBAction func saveChanges(_ sender: Any) {
+        NetworkManager.shared.updateMovie(movie: movie) { (movieCreated) in
+            print("Movie updated successfully")
+        } failure: { (error) in
+            print("Error updating movie")
+        }
+    }
     
     func populate(movie: Movie) {
+        
+        self.movie = movie
+        
         movieTitle.text = movie.name
         movieGenre.text = movie.genre
         movieDescription.text = movie.description
@@ -46,6 +58,7 @@ class MovieCell: UITableViewCell {
         
         rating.didTouchCosmos = { rating in
             self.evaluateRating(rating: rating)
+            
         }
         
         let url1 = URL(string: movie.image1Url)

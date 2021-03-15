@@ -41,8 +41,13 @@
                                             <constraints>
                                                 <constraint firstAttribute="width" secondItem="68o-5b-m5x" secondAttribute="height" id="sen-Zi-qZ3"/>
                                             </constraints>
-                                            <color key="tintColor" name="Theme"/>
-                                            <state key="normal" image="chevron.down" catalog="system"/>
+                                            <color key="tintColor" name="AccentColor"/>
+                                            <state key="normal" image="chevron.down" catalog="system">
+                                                <color key="titleColor" name="AccentColor"/>
+                                            </state>
+                                            <connections>
+                                                <action selector="actionClose:" destination="-1" eventType="touchUpInside" id="upp-KD-VZl"/>
+                                            </connections>
                                         </button>
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Sort by" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nYy-Pm-Hdx">
                                             <rect key="frame" x="179.5" y="5" width="55" height="35"/>
@@ -57,11 +62,14 @@
                                             </constraints>
                                             <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="14"/>
                                             <state key="normal" title="Done">
-                                                <color key="titleColor" name="Theme"/>
+                                                <color key="titleColor" name="AccentColor"/>
                                             </state>
                                             <state key="selected">
                                                 <color key="titleColor" name="Theme"/>
                                             </state>
+                                            <connections>
+                                                <action selector="actionDone:" destination="-1" eventType="touchUpInside" id="l8F-kB-DUX"/>
+                                            </connections>
                                         </button>
                                     </subviews>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -102,7 +110,6 @@
                             </userDefinedRuntimeAttributes>
                         </view>
                     </subviews>
-                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstItem="c2N-Hl-brp" firstAttribute="leading" secondItem="1a5-tG-Tht" secondAttribute="leading" id="3yW-hE-bgH"/>
                         <constraint firstItem="wBS-0G-bdF" firstAttribute="leading" secondItem="1a5-tG-Tht" secondAttribute="leading" id="CU5-fC-7fC"/>
@@ -121,7 +128,6 @@
                 </view>
             </subviews>
             <viewLayoutGuide key="safeArea" id="fnl-2z-Ty3"/>
-            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="9KR-qA-Aza" secondAttribute="trailing" id="0TD-a3-V5y"/>
                 <constraint firstItem="1a5-tG-Tht" firstAttribute="top" secondItem="i5M-Pr-FkT" secondAttribute="top" id="Hww-P3-8zo"/>
@@ -136,6 +142,9 @@
     </objects>
     <resources>
         <image name="chevron.down" catalog="system" width="128" height="72"/>
+        <namedColor name="AccentColor">
+            <color red="0.0" green="0.46000000000000002" blue="0.89000000000000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </namedColor>
         <namedColor name="Theme">
             <color red="0.32899999618530273" green="0.32400000095367432" blue="0.4779999852180481" alpha="0.33000001311302185" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>

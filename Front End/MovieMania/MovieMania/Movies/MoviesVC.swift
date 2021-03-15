@@ -20,6 +20,12 @@ class MoviesVC: UIViewController {
         self.present(SortByView(), animated: true, completion: nil)
 
     }
+    
+    @IBAction func sortPressed(_ sender: Any) {
+        self.present(SortByView(), animated: true, completion: nil)
+    }
+    
+    
 }
 
 extension MoviesVC : UITableViewDelegate, UITableViewDataSource {
@@ -50,7 +56,27 @@ extension MoviesVC : UITableViewDelegate, UITableViewDataSource {
         tableView.endUpdates()
     }
     
-    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+
+        let deleteAction = UIContextualAction(style: .normal, title: nil) { (action, view, completionHandler) in
+            
+            NetworkManager.shared.deleteMovie(mid: self.movies[indexPath.row].id) { (id) in
+                print("deleted successfully")
+            } failure: { (error) in
+                print("deletion error")
+            }
+
+            
+            completionHandler(true)
+        }
+        if #available(iOS 13.0, *) {
+            deleteAction.image = UIImage(systemName: "trash.fill")
+        } else {
+        }
+        deleteAction.backgroundColor = UIColor.systemGray
+
+        return UISwipeActionsConfiguration(actions: [deleteAction])
+    }
     
     
     

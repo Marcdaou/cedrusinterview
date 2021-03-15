@@ -27,30 +27,80 @@ class NetworkManager {
     
     func getMovies(success: @escaping (_ movies : [Movie]) -> Void, failure: @escaping (_ error : String) -> Void) {
         
-        
-        var movies = [Movie]()
         let request = AF.request(baseUrl)
         
-        request.responseDecodable(of: Movie.self) { (response) in
-            guard let movies = response.value else { return }
-            success
+        request.responseDecodable(of: [Movie].self) { (data) in
             
+            if let error = data.error {
+                failure(error.localizedDescription)
+            } else {
+                guard let movies = data.value else { return }
+                success(movies)
+            }
+        }
+    }
+    
+    func getMovies(searchStr: String, sort: String, success: @escaping (_ movies : [Movie]) -> Void, failure: @escaping (_ error : String) -> Void) {
+        
+        let request = AF.request("\(baseUrl)/\(searchStr)/\(sort)")
+        
+        request.responseDecodable(of: [Movie].self) { (data) in
+            
+            if let error = data.error {
+                failure(error.localizedDescription)
+            } else {
+                guard let movies = data.value else { return }
+                success(movies)
+            }
         }
     }
     
     func addNewMovie(movie: Movie, success: @escaping (_ movie : Movie) -> Void, failure: @escaping (_ error : String) -> Void) {
         
-        
-        let request = AF.request(baseUrl, method: HTTPMethod.post ,parameters: ["foo": "bar"])
-        request.responseJSON { (data) in
+        let request = AF.request(baseUrl, method: HTTPMethod.post ,parameters: movie.dict)
+        request.responseDecodable(of: Movie.self) { (data) in
             if let error = data.error {
                 failure(error.localizedDescription)
             } else {
-                success()
+                guard let movie = data.value else { return }
+                success(movie)
             }
-            print(data)
-            
         }
     }
+    
+    func updateMovie(movie: Movie, success: @escaping (_ movie : Movie) -> Void, failure: @escaping (_ error : String) -> Void) {
+        
+        let request = AF.request("\(baseUrl)/\(movie.id ?? "")", method: HTTPMethod.put ,parameters: movie.dict)
+        request.responseDecodable(of: Movie.self) { (data) in
+            if let error = data.error {
+                failure(error.localizedDescription)
+            } else {
+                guard let movie = data.value else { return }
+                success(movie)
+            }
+        }
+    }
+    
+    func deleteMovie(mid: String, success: @escaping (_ movieId : String) -> Void, failure: @escaping (_ error : String) -> Void) {
+        
+        let request = AF.request("\(baseUrl)/\(mid)", method: HTTPMethod.delete)
+        request.responseDecodable(of: Movie.self) { (data) in
+            if let error = data.error {
+                failure(error.localizedDescription)
+            } else {
+                success(mid)
+            }
+        }
+    }
+    
 }
 
+
+extension Encodable {
+
+    var dict : [String: Any]? {
+        guard let data = try? JSONEncoder().encode(self) else { return nil }
+        guard let json = try? JSONSerialization.jsonObject(with: data, options: []) as? [String:Any] else { return nil }
+        return json
+    }
+}

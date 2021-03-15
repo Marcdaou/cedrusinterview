@@ -41,13 +41,11 @@ class SortByView: UIViewController {
 
     @IBAction func actionClose(_ sender: UIButton) {
 
-        print(#function)
         dismiss(animated: true, completion: nil)
     }
 
     @IBAction func actionDone(_ sender: UIButton) {
 
-        print(#function)
         dismiss(animated: true, completion: nil)
     }
 }

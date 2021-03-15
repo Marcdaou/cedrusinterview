@@ -9,7 +9,7 @@ import Foundation
 
 
 
-public class Movie: Decodable {
+public class Movie: Decodable, Encodable {
     
     var id: String!
     var name: String!

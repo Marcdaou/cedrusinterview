@@ -23,12 +23,6 @@ class AddMoviesVC: UIViewController {
         navigationItem.largeTitleDisplayMode = .never
 
     }
-
-    @objc func actionAdd(_ sender: UIButton) {
-        
-        
-
-    }
 }
 
 extension AddMoviesVC: UITableViewDataSource, UITableViewDelegate {
@@ -62,21 +56,11 @@ extension AddMoviesVC: UITableViewDataSource, UITableViewDelegate {
 
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
-        actionAdd(UIButton())
-    }
-
-    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-
-        let deleteAction = UIContextualAction(style: .normal, title: nil) { (action, view, completionHandler) in
-            print(#function)
-            completionHandler(true)
+        NetworkManager.shared.addNewMovie(movie: movies[indexPath.row]) { (movie) in
+            print("movie created successfully")
+        } failure: { (error) in
+            print("Movie creation failed")
         }
-        if #available(iOS 13.0, *) {
-            deleteAction.image = UIImage(systemName: "trash.fill")
-        } else {
-        }
-        deleteAction.backgroundColor = UIColor.systemGray
 
-        return UISwipeActionsConfiguration(actions: [deleteAction])
     }
 }
